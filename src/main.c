@@ -6,13 +6,15 @@ char *getString(const char *prompt);
 int main(int argc, char *argv[]) {
   setbuf(stdout, NULL);
 
-  char *command = getString("$ ");
-  if (command == NULL) {
-    return 1;
-  }
-  printf("%s: command not found\n", command);
+  while (1) {
+    char *command = getString("$ ");
+    if (command == NULL) {
+      return 1;
+    }
+    printf("%s: command not found\n", command);
 
-  free(command);
+    free(command);
+  }
 
   return 0;
 }
