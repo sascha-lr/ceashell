@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 char *getString(const char *prompt);
 
@@ -11,6 +12,11 @@ int main(int argc, char *argv[]) {
     if (command == NULL) {
       return 1;
     }
+
+    if (strcmp(command, "exit") == 0) {
+      break;
+    }
+
     printf("%s: command not found\n", command);
 
     free(command);
