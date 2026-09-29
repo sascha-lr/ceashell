@@ -17,7 +17,7 @@ int main(void) {
     int spaceIndex = getSpaceIndex(command);
 
     if (spaceIndex > -1 && (strncmp(command, "echo", spaceIndex)) == 0) {
-      printf("%s\n", command + (spaceIndex - 1));
+      printf("%s\n", command + (spaceIndex + 1));
     } else if (strcmp(command, "exit") == 0) {
       free(command);
       break;
