@@ -4,25 +4,41 @@
 
 char *getString(const char *prompt);
 
-int main(int argc, char *argv[]) {
+int getSpaceIndex(const char *commmand);
+
+int main(void) {
   setbuf(stdout, NULL);
 
-  while (1) {
-    char *command = getString("$ ");
-    if (command == NULL) {
+  for (char *command; 1; free(command)) {
+    if ((command = getString("$ ")) == NULL) {
       return 1;
     }
 
-    if (strcmp(command, "exit") == 0) {
+    int spaceIndex = getSpaceIndex(command);
+
+    if (spaceIndex > -1 && (strncmp(command, "echo", spaceIndex)) == 0) {
+      printf("%s\n", command + spaceIndex);
+    } else if (strcmp(command, "exit") == 0) {
+      free(command);
       break;
+    } else {
+      printf("%s: command not found\n", command);
     }
-
-    printf("%s: command not found\n", command);
-
-    free(command);
   }
 
   return 0;
+}
+
+int getSpaceIndex(const char *command) {
+  int spaceIndex = -1;
+
+  for (int i = 0; command[i] != '\0'; i++) {
+    if (command[i] == ' ' && i != 0) {
+      spaceIndex = i;
+      break;
+    }
+  }
+  return spaceIndex;
 }
 
 char *getString(const char *prompt) {
