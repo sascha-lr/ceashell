@@ -16,14 +16,27 @@ int main(void) {
 
     int spaceIndex = getSpaceIndex(command);
 
-    if (spaceIndex > -1 && (strncmp(command, "echo", spaceIndex)) == 0) {
-      printf("%s\n", command + (spaceIndex + 1));
+    if (spaceIndex > -1) {
+      if (strncmp(command, "echo", spaceIndex) == 0) {
+        printf("%s\n", command + (spaceIndex + 1));
+        continue;
+      } else if (strncmp(command, "type", spaceIndex) == 0) {
+        char *subCommand = command + (spaceIndex + 1);
+        if (strcmp(subCommand, "exit") == 0 ||
+            strcmp(subCommand, "type") == 0 ||
+            strcmp(subCommand, "echo") == 0) {
+          printf("%s is a shell builtin\n", subCommand);
+        } else {
+          printf("%s: not found\n", subCommand);
+        }
+        continue;
+      }
     } else if (strcmp(command, "exit") == 0) {
       free(command);
       break;
-    } else {
-      printf("%s: command not found\n", command);
     }
+
+    printf("%s: command not found\n", command);
   }
 
   return 0;
